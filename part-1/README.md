@@ -100,6 +100,7 @@ Some useful commands:
 ## 4. Pointers
 This is where it gets real dirty real fast. 
 
+### The easy stuff
 Up to now, we considered a bunch of variables. These variables are saved somewhere in memory, meaning they have an _address_. The address of a variable can be accessed via the `&` symbol.
 ```c
 int response = 42;
@@ -132,3 +133,49 @@ printf("&v2 is a double* and has size %ld\n", sizeof(&v2));
 Pretty cool, right? This is just the beginning.
 
 > Try this stuff with [pointers.c](./pointers.c)!
+
+### The less-easy stuff
+Overall, a pointer is like a treasure map.
+
+![Where is "response"?](../figs/response.jpg)
+
+To use it, you need the _dereference operator_, `*`.
+```c
+void find_treasure(int *map) {
+    printf("I found the treasure! It's %d\n", *map);
+}
+// in main()
+int treasure = 42;
+int *map = &treasure;
+find_treasure(map);
+// find_treasure(&treasure) works, too
+```
+`find_treasure` doesn't know the content of the `treasure` variable, because it's outside its scope (remember him?). However, it can still see its content thanks to the pointer!
+
+Now look at this:
+```c
+void steal_treasure(int treasure) {
+    treasure = 0;
+    printf("The treasure is mine, muhahaha! %d\n", treasure);
+}
+void steal_treasure_fr(int *map) {
+    *map = 0;
+    printf("The treasure is mine fr, muhahaha! %d\n", *map);
+}
+// in main()
+int treasure = 42;
+steal_treasure(treasure);
+printf("treasure = %d\nYou did nothing, you loser! lol\n", treasure);
+// treasure = 42
+steal_treasure_fr(&treasure);
+printf("treasure = %d\nOps, you took it :(\n", treasure);
+// treasure = 0
+```
+This silly example is actually very useful, because it explains how function parameters work in C. Whenever you call a function, its parameters are _copied_. This means that, if you modify them inside the function, you are just touching the copies, and the originals remain unchanged (`steal_treasure`).
+
+However, if you pass the pointer of a variable, and then use it to change the variable inside the function with `*`, you'll modify the original variable! *__BIG CARREFOUR__* with this, it should be used only if necessary (it's better to copy and return).
+
+> See this in [treasure.c](./treasure.c)! <br>
+Bonus : use `gdb` to prove that the `treasure` variable in `steal_treasure` is a copy.
+
+### The straight-up weird stuff
