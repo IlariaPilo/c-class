@@ -6,7 +6,7 @@ Hello and welcome to the C insanity! I love this language and I hope you will, t
 2. [Basic types and variable scope](#2-basic-types-and-variable-scope)
 3. [Compiling and debugging](#3-compiling-and-debugging)
 4. [Pointers](#4-pointers)
-5. Static arrays and strings; Structures
+5. [Static arrays and strings](#5-static-arrays-and-strings)
 6. Dynamic arrays with `malloc`
 
 ## 1. Differences wrt Python
@@ -114,6 +114,7 @@ int *resp_addr = &response;
 printf("The response is %d and lies at address %p\n", response, resp_addr);
 // The response is 42 and lies at address 0x7fffffffd614
 ```
+A pointer to nothing is set to `NULL`.
 
 Since pointers are just addresses, every pointer has the same size, even though the pointed variables have different sizes.
 ```c
@@ -179,3 +180,78 @@ However, if you pass the pointer of a variable, and then use it to change the va
 Bonus : use `gdb` to prove that the `treasure` variable in `steal_treasure` is a copy.
 
 ### The straight-up weird stuff
+Flashback!!
+
+> Since pointers are just addresses, every pointer has the same size, even though the pointed variables have different sizes.
+
+<details>
+  <summary>Then why there is one pointer type for each "normal" type?</summary>
+  When we use the dereference operator, the program must know how how big the variable is, and how to interpret it! So... what if we cast the pointer type? 
+</details>
+
+> Write a C program that checks whether the architecture is Little or Big Endian [[definition](https://en.wikipedia.org/wiki/Endianness)].
+
+## 5. Static arrays and strings
+If you aren't missing Python yet, here it comes.
+
+### Static arrays
+Static arrays are arrays where the size is known *__AT COMPILE TIME__*. 
+```c
+int digits[10];
+int i;
+for (i=0; i<10; i++) {
+    digits[i] = i;
+}
+printf("Decimal system digits: ");
+for (i=0; i<10; i++) {
+    printf("%d ", digits[i]);
+}
+printf("\n");
+```
+You can (and should) use compile-time directives to save the array size:
+```c
+#define N 10
+int digits[N];
+int i;
+for (i=0; i<N; i++)
+// ...
+```
+This is better because we achieve consistency over the array size, and we can change it by modifying one single line, instead of looking for all the times we used the pure number.
+
+*__YOU SHOULDN'T USE VARIABLES FOR ANY REASON BECAUSE THEY ARE NOT KNOWN AT COMPILE TIME DO YOU UNDERSTAND NO VARIABLES AT ALL CAPITO?!__*
+```c
+🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+// THIS IS WRONG DON'T DO IT EVER UNDERSTOOD?
+int N = 10;
+int digits[N];
+int i;
+for (i=0; i<N; i++)
+// ...
+🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+```
+This is undefined behavior according to C standards, meaning that it will compile and maybe run. *__This doesn't mean you should fall into temptation and use it! Never ever EVER use it, even if it looks like the program works as intended!!!__* I hope I convinced you.
+
+### Strings
+Strings in C are just `char` arrays where the last element is set to `\0`. They are far less intuitive than in Python, and require the [`string.h`](https://www.tutorialspoint.com/c_standard_library/string_h.htm) library to manipulate them.
+
+*__Important__* : strings are delimited by `"`, while single characters by `'`.
+
+### The array type (??)
+I yapped for 3 hours on how C is a typed language. So, it should exist an array type... right? *__Wrong!__*
+They are actually...pointers! 
+
+![Who are you? I'm you but different!](../figs/you-but-different.jpg)
+
+More specifically, an "array variable" is a pointer to the first element of that array.
+
+```c
+#define N 10
+int digits[N];
+int *also_digits = digits;  
+// notice we don't need & because `digits` is already a pointer!
+/* ... here we init the array ... */
+printf("The third digit of the decimal system is %d\n", *(also_digits+2));
+```
+
+> Use [arrays.c](./arrays.c) and play with `gdb` to check addresses and contents!
+
