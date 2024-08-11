@@ -7,7 +7,7 @@ Hello and welcome to the C insanity! I love this language and I hope you will, t
 3. [Compiling and debugging](#3-compiling-and-debugging)
 4. [Pointers](#4-pointers)
 5. [Static arrays and strings](#5-static-arrays-and-strings)
-6. Dynamic arrays with `malloc`
+6. [Dynamic arrays with `malloc`](#6-dynamic-arrays-with-malloc)
 
 ## 1. Differences wrt Python
 C and Python are quite different, duh. More specifically:
@@ -254,4 +254,72 @@ printf("The third digit of the decimal system is %d\n", *(also_digits+2));
 ```
 
 > Use [arrays.c](./arrays.c) and play with `gdb` to check addresses and contents!
+
+## 6. Dynamic arrays with `malloc`
+Now you know how to handle known-size arrays. However, if the size is not known at compile time, you need to manually allocate arrays! :0
+
+Manual allocation is wild, so keep an eye out for good programming practice advices!
+
+### `malloc` + `free`
+To get your hands dirty, nothing is better than the `malloc` + `free` combo. 
+
+`malloc` takes a size and returns a pointer to an allocated memory portion of that size. It's a good programming practice to express the size as elements in the arrays multiplied by the size of the single element:
+```c
+int N = atoi(argv[1]);
+int *numbers = malloc(N * sizeof(int));
+```
+`free` takes the pointer and releases the associated memory:
+```c
+free(numbers);
+```
+
+If you are into these things, take a look at `calloc` (like `malloc` but initializes the memory to 0) and `realloc`.
+
+Classic variables and dynamically-allocated ones belong to different memory sections:
+- Classic variables are allocated in the _stack_
+- Malloc variables are allocated in the _heap_
+More on this next if you are interested.
+
+### Dangers of manual allocation
+Manually-allocated data is nasty because it has *__NO SCOPE__*, so if you forget to deallocate it, it simply keeps existing. Same happens if you lose the pointer to that data. For this reason, it's good programming practice to clearly assign responsibility for allocating and deallocating in your code.
+```c
+// case 1. everything in the main ✅
+int main() {
+    // ...
+    int N = atoi(argv[1]);
+    int *numbers = malloc(N * sizeof(int));
+    // ...
+    free(numbers);
+}
+
+// case 2. everything in a function ✅
+int *alloc_numbers(int N) {
+    return malloc(N * sizeof(int));
+}
+void free_numbers(int *numbers) {
+    free(numbers);
+}
+int main() {
+    // ...
+    int N = atoi(argv[1]);
+    int *numbers = alloc_numbers(N);
+    // ...
+    free_numbers(numbers);
+}
+
+// case 3. mixed 🚫
+int main() {
+    // ...
+    int N = atoi(argv[1]);
+    int *numbers = alloc_numbers(N);
+    // ...
+    free(numbers);
+}
+```
+Even though `free_numbers` doesn't do anything fancy (it's just a wrapper for `free`), not defining it is a bad programming practice, since we assigned the `malloc` responsibility to a function.
+
+> Now, try to think about matrices (static and dynamic)!
+
+## The End
+See you next time! ;D
 
