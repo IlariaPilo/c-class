@@ -318,7 +318,7 @@ int main() {
 ```
 Even though `free_numbers` doesn't do anything fancy (it's just a wrapper for `free`), not defining it is a bad programming practice, since we assigned the `malloc` responsibility to a function.
 
-> Now, try to think about matrices (static and dynamic)!
+> Now, try to think about matrices (static and dynamic)! [see [malloc2000.c](./malloc2000.c)]
 
 ## The End
 See you next time! ;D
