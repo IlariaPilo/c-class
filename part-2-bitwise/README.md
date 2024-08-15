@@ -17,6 +17,7 @@ printf("not_v = %#x\n", ~v);
 XOR (`^`) is a useful operation in cryptography and assembly. I don't know about embedding systems. Anyway, if you don't remember, XOR computes _diversity_, meaning that if 2 bits are different, XOR will be 1, 0 otherwise. 
 
 I know, not the clearest explanation. But maybe the logic table will refresh your memory:
+
 |X | Y | X^Y |
 |:-|:--|:---:|
 |0|0|0|
@@ -34,18 +35,20 @@ And it's used in assembly to set registers to 0:
 ```s
 r0 = r0 XOR r0
 ```
-This is better than just loading the value 0, as it's faster and typically smaller in size.
+This is better than just loading the value 0, as the XOR function is faster and typically smaller in size.
 
 ## Bitwise OR and AND
 I grouped up bitwise OR (`|`) and AND (`&`) since they have the same, opposite usage in embedding systems. 
 ### Bitwise OR
 I'm sure you remember that the OR of two bits is 0 if and only if both bits are 0:
-|X | Y | X|Y |
+
+|X | Y | X\|Y |
 |:-|:--|:---:|
 |0|0|0|
 |0|1|1|
 |1|0|1|
 |1|1|1|
+
 For this reason, it can be interpreted as a sort of sum. 
 
 From the definition of OR, the following holds: `X|1 == 1`, whatever the value of `X`. This is why bitwise OR is used to _set_ specific bits. In embedding systems, as well as in system calls (more on syscalls later), options are configured by setting (or resetting) positional bits. I know this sounds like incomprehensible mumbo-jumbo, so I have an example for you!
@@ -69,7 +72,7 @@ printf("O_TRUNC  = %d\n", O_TRUNC);
 // O_CREAT  = 64
 // O_TRUNC  = 512
 ```
-Maybe printing them as integer didn't give it away, but converting them to binary sure will!
+Maybe printing them as integer didn't give it away, but converting them to binary surely will!
 ```
 O_WRONLY = 0000000001
 O_CREAT  = 0001000000
@@ -160,8 +163,10 @@ printf("v << 4 = %#x\n", v<<4);
 //      v = 0x045
 // v << 4 = 0x450
 ```
-Since we are in binary, every time we add a 0 we multiply by 2, meaning that:
-$$ x << n = x \cdot 2^n $$
+Since we are in binary, every time we add a 0 to the right we multiply by 2, meaning that:
+```math
+x << n = x \cdot 2^n
+```
 ```c
 int x = 32;
 printf("     x = %d\n", x);
@@ -179,7 +184,9 @@ printf("v >> 4 = %#04x\n", v>>4);
 // v >> 4 = 0x04
 ```
 In a dual way wrt the left shift, this represents a division by some power of 2:
-$$ x >> n = x / 2^n $$
+```math
+x >> n = x / 2^n
+```
 ```c
 int x = 32;
 printf("     x = %d\n", x);
@@ -201,8 +208,10 @@ printf("v >> 4 = %#x\n", v>>4);
 Since shifts are much faster than actual multiplications and divisions, you should always use them whenever you are dealing with powers of 2. They are not super readable though, so add many comments!
 
 ### Bitwise AND. Again. Dude, what are you even doing here!
-Since I talked a bit about bitwise math, it's time to bring back the good old bitwise AND, since it can also be used to perform MOD operations!
-$$ x & (n-1) = x MOD 2^n $$
+Since I talked a bit about bitwise math, it's time to bring back the good old AND, since it can also be used to perform MOD operations!
+```math
+x & (n-1) = x MOD 2^n
+```
 
 This can look pretty obscure, but bear with me. In base 10, dividing by a power of 10 means simply shifting right. For example:
 ```
@@ -224,7 +233,7 @@ This means I don't need to perform the division at all, I can just mask them!
 ```
 Now, since I'm dealing with powers of 2, the divisor will always look like this: `1<one or more 0s>`, meaning we can get the all 1s mask by simply removing 1 from it. 
 
-And there you have it! I hope I convinced you!
+And there you have it, I hope I convinced you!
 
 > Your turn! Try to write a program that converts from binary to integer representation (and vice versa) using _only_ bitwise operations! [see [bin_converter.c](./bin_converter.c)]
 
