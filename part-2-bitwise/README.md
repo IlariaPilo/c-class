@@ -210,7 +210,7 @@ Since shifts are much faster than actual multiplications and divisions, you shou
 ### Bitwise AND. Again. Dude, what are you even doing here!
 Since I talked a bit about bitwise math, it's time to bring back the good old AND, since it can also be used to perform MOD operations!
 ```math
-x \& (n-1) = x MOD 2^n
+x \& (n-1) = x \% 2^n
 ```
 
 This can look pretty obscure, but bear with me. In base 10, dividing by a power of 10 means simply shifting right. For example:
