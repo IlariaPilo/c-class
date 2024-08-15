@@ -52,7 +52,7 @@ Mkfile.old
 dkms.conf
 
 # stuff
-part-1/c-vs-py
-part-1/pointers
-part-1/treasure
-part-1/arrays
+part-1-basics/c-vs-py
+part-1-basics/pointers
+part-1-basics/treasure
+part-1-basics/arrays
