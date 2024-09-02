@@ -12,3 +12,12 @@ Some C basic stuff for you! &lt;3
 
 ## part-2-bitwise
 [Part 2](./part-2-bitwise/) focuses on bitwise operations and why they are important in the context of embedded systems. There is also a morse-code LED simulator, so check it out! 
+
+## part-3-files
+[Part 3](./part-3-files/) is centered on files and structures. Take a look at this lesson to hear more about:
+1. Classic structures
+2. Dynamically-allocated structures
+3. Formatted I/O
+4. Binary I/O
+5. Reading from terminal
+
