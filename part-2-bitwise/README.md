@@ -149,7 +149,7 @@ In this example, `x & 0xff` zeros all the bytes in `x`, except for the least sig
 Interestingly enough, this code breaks when you try it with a negative number.
 ```c
 printf("   -42 fits in 1B? [y] : %c\n", fits_in_1B(42)?'y':'n');
-//    -42 fits in 1B? [n] : n
+//    -42 fits in 1B? [y] : n
 ```
 > Do you know why? And can you fix it so that it always works, no matter the sign? You can look at the code in [one_byte.c](./one_byte.c).
 
