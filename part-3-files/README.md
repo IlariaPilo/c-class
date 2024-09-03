@@ -132,7 +132,7 @@ Time to talk about files! In C, there are 2 ways to interact with files:
 If you have a binary file, you should use binary I/O. If you have a textual file (e.g., a csv), go with formatted I/O.
 
 ### Formatted I/O
-In most cases, formatted I/O is the way to go, so I'll start from here. Files can be quite boring, so I'll keep it simple.
+In most cases, formatted I/O is the way to go, so I'll start from here.
 
 #### Opening and closing the file
 First, you need to open the file. This can be done with [`fopen()`](https://linux.die.net/man/3/fopen) (formatted open).
@@ -404,10 +404,89 @@ int main(int argc, char** argv) {
     return EXIT_SUCCESS;
 }
 ```
+#### YOUR TURN!!
+TODO
 
 ### Binary I/O
 
-TODO
+If you end up with some binary file (for any reason), take a look at this part.
+
+#### Opening and closing the file
+Again, you need to open the file first. This can be done with [`open()`](https://linux.die.net/man/3/open).
+```c
+#include <sys/stat.h>
+#include <fcntl.h>
+int open(const char *path, int mode);
+int open(const char *path, int mode, int permissions);
+```
+`path` is the name of the file, while `mode` determines the type of file interaction. There are 2 main differences wrt formatted open:
+1. `open` returns an integer, and not a `FILE *`. This value is called _file descriptor_, and it's the index of this file in the table of opened files. As per usual, standard input, output and error have their default descriptors (0, 1, and 2 respectively, like in bash).
+2. `mode` is an integer, and not a string. If you remember [Part 2](../part-2-bitwise/README.md#bitwise-or), you know exactly how to set up this value (if you don't remember, it's a bitwise OR of the options you want).
+
+If you want to mimic the `fopen` behavior, you can set `mode` as follows:
+
+|fopen|open|Comments|
+|:---:|:---|:-------|
+|"r"| O_RDONLY | Opens the file in read-only.<br>If the file doesn't exist, throws an error. |
+|"w"| O_WRONLY \| O_CREAT \| O_TRUNC | Opens the file in write-only.<br>If the file doesn't exist, it creates it.<br>If the file exists, it empties it. |
+|"a"| O_WRONLY \| O_CREAT \| O_APPEND | Opens the file in write-only.<br>If the file doesn't exist, it creates it.<br>If the file exists, it appends content to it. |
+
+There are many more modes, so check the documentation if you need something more specific!
+
+If you plan on using `O_CREAT`, you should also set `permissions` accordingly (otherwise you will create a file you cannot read!). For example, if you want the default permissions of `fopen` (read and write by the owner, and read-only by group members and others), you can call `open` as:
+```c
+int fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+```
+
+Once you are done, you have to close the file.
+```c
+#include <unistd.h>
+int close(int fd);
+```
+
+#### `read` and `write`
+I/O on binary files is somehow less complex (at least in my brain) wrt to formatted I/O (there is no weird `scanf` here).
+
+Both `read` and `write` system calls work the same way:
+```c
+#include <unistd.h>
+ssize_t read(int fd, void *buf, size_t count);
+ssize_t write(int fd, const void *buf, size_t count); 
+```
+`fd` is the file descriptor, `buf` is the address of the binary data, and `count` is the number of bytes we want to read/write. Both functions return the amount of bytes they read/wrote. And that's it!
+
+A little example for you. Suppose you want to write a tiny utility that dumps the content of an array of `N` integers to a file, and reads it. The binary file should first save the value of `N`, and then the `N` integers. Well, there's nothing easier!
+
+```c
+// a global variable, just for fun
+int N;
+
+void dump(int* array, char* path) {
+    // open `path` in write mode
+    int fd = open(path, O_WRONLY | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+    // write N
+    write(fd, &N, sizeof(int));
+    // write the array
+    write(fd, array, sizeof(int)*N);
+    // close
+    close(fd);
+}
+
+int* load(char* path) {
+    // open `path` in read mode
+    int fd = open(path, O_RDONLY);
+    // read N
+    read(fd, &N, sizeof(int));
+    // allocate space for the array
+    int* array = malloc(N*sizeof(int));
+    // read the array
+    read(fd, array, sizeof(int)*N);
+    // close
+    close(fd);
+    return array;
+}
+```
+>Try this utility out in [binary_dump_load.c](./binary_dump_load.c).
 
 ## And that's all!
 See you next time <3
