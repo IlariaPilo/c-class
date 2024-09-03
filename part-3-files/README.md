@@ -405,7 +405,7 @@ int main(int argc, char** argv) {
 }
 ```
 #### YOUR TURN!!
-TODO
+>Now it's your turn to play with this format I/O stuff! Open the [instructions](./instructions.md) and start coding!
 
 ### Binary I/O
 

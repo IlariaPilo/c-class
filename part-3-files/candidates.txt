@@ -1,0 +1,200 @@
+Aiden;Griffin;25;Single;New York;3
+Sophia;Martinez;31;Married;California;1
+Liam;O'Connor;22;Single;Texas;0
+Olivia;Nguyen;29;Divorced;Florida;2
+Ethan;Smith;14;Single;Michigan;0
+Mia;Johnson;17;Single;Illinois;1
+Noah;Lee;40;Married;Georgia;3
+Emma;Brown;27;Widowed;Washington;1
+Ava;Davis;33;Married;Oregon;2
+Lucas;Taylor;19;Single;Ohio;0
+Isabella;Wilson;26;Single;Arizona;4
+Mason;Martin;32;Divorced;Nevada;2
+Charlotte;Anderson;21;Single;New Jersey;1
+James;Harris;38;Married;Tennessee;1
+Amelia;Clark;15;Single;Indiana;0
+Benjamin;Roberts;44;Married;Maryland;3
+Manu;Macron;66;Widowed;Ohio;3
+Jacob;Walker;36;Single;South Carolina;2
+Ella;Hall;28;Married;Colorado;1
+Michael;Young;18;Single;Virginia;0
+Avery;Allen;24;Single;Minnesota;1
+Sebastian;King;46;Divorced;Missouri;3
+Aria;Scott;29;Married;Wisconsin;0
+Elijah;Green;12;Single;Iowa;0
+Mila;Adams;35;Divorced;North Carolina;2
+Jack;Nelson;20;Single;Alabama;1
+Gustavo;Flores;23;Widowed;Florida;5
+Henry;Carter;11;Single;Maine;0
+Zoe;Parker;30;Single;South Dakota;2
+David;Baker;50;Married;Kansas;0
+Madison;Cruz;23;Single;Oklahoma;1
+Owen;Gonzalez;37;Married;New Hampshire;1
+Eleanor;Bennett;17;Single;Montana;0
+Daniel;Gray;41;Divorced;Arkansas;3
+Ilaria;Pilo;24;Single;Texas;14
+Matthew;Wright;26;Married;Vermont;2
+Scarlett;Jenkins;19;Single;Rhode Island;1
+Christopher;Hughes;35;Widowed;Mississippi;2
+Lucy;Price;27;Single;Delaware;0
+William;Collins;31;Married;Utah;1
+Ed;Big;56;Divorced;California;1
+Grace;Murphy;40;Single;Nevada;3
+Alexander;Turner;28;Single;New Hampshire;1
+Chloe;Sullivan;24;Married;Virginia;2
+Eli;Foster;33;Single;Texas;0
+Sofia;Torres;27;Divorced;Alabama;2
+James;Morris;42;Married;North Dakota;1
+Layla;Ross;19;Single;Nebraska;0
+Jackson;Ward;15;Single;Wyoming;1
+Hazel;Cooper;31;Widowed;New Jersey;2
+Mason;Diaz;30;Single;Connecticut;0
+Archer;Miller;22;Single;South Carolina;1
+Ella;Cox;21;Married;California;1
+Henry;Long;39;Married;Louisiana;2
+Aurora;Murphy;18;Single;Maryland;0
+Lucas;Reed;28;Single;Montana;1
+Mia;Howard;32;Divorced;Ohio;3
+Ryan;Price;40;Married;Idaho;0
+Amelia;Cole;20;Single;North Carolina;2
+Levi;Baker;25;Single;Mississippi;1
+Samantha;Walker;26;Married;Arkansas;0
+Evan;Russell;34;Single;Tennessee;3
+Charlotte;Harris;16;Single;South Dakota;1
+Gavin;Gray;45;Married;Minnesota;2
+Stella;Young;11;Single;Oklahoma;0
+Nolan;Fox;32;Divorced;Texas;1
+Maya;Ward;19;Single;Wisconsin;0
+Jack;Kennedy;29;Married;Iowa;2
+Ivy;Morris;40;Divorced;New Mexico;1
+Owen;Hughes;21;Single;Oregon;0
+Maggie;Patterson;31;Widowed;Kentucky;2
+Leo;Bryant;14;Single;West Virginia;1
+Luna;Ward;37;Single;Nebraska;0
+Cole;Coleman;26;Married;Rhode Island;1
+Zara;Bryant;22;Single;Missouri;0
+Jacob;Henderson;41;Married;Georgia;3
+Ellie;Miller;23;Married;Alabama;1
+Leo;Price;15;Single;Mississippi;0
+Olivia;Ross;30;Married;Washington;2
+Eli;Turner;26;Single;Arkansas;1
+Nina;Mitchell;27;Divorced;South Carolina;3
+Jack;Bell;19;Single;Nebraska;0
+Hannah;King;34;Single;Nevada;1
+Aiden;Martin;24;Single;Oklahoma;2
+Leah;Reynolds;20;Married;Maryland;0
+Samuel;Cook;32;Single;West Virginia;1
+Molly;Hall;17;Single;Indiana;0
+Leo;Johnson;45;Married;Michigan;3
+Emma;Lee;23;Single;South Dakota;2
+James;Ward;30;Single;Maine;1
+Emily;Scott;19;Single;New Hampshire;0
+Daniel;Moore;26;Married;Delaware;1
+Chloe;Harris;28;Married;Ohio;2
+Mason;Hughes;33;Single;Idaho;0
+Avery;Sullivan;40;Divorced;New Mexico;3
+Sarah;Wood;15;Single;Rhode Island;1
+Max;Fisher;31;Married;New York;2
+Olivia;Adams;22;Single;South Carolina;0
+Elijah;Nelson;34;Divorced;Kansas;1
+Mila;Howard;18;Single;Florida;2
+Leo;Carter;27;Single;Nebraska;0
+Harper;Bell;29;Married;Georgia;1
+Henry;Harris;19;Single;Connecticut;1
+Emma;Bennett;35;Single;Wyoming;2
+Liam;Clark;42;Married;Iowa;1
+Zoe;Scott;16;Single;Montana;0
+Jackson;Mitchell;21;Single;Alabama;2
+Holly;Jackson;27;Divorced;Vermont;0
+Benjamin;Parker;30;Single;Texas;1
+Charlotte;Baker;32;Married;Nevada;2
+Nathan;Adams;25;Married;Minnesota;0
+Sophie;Sullivan;14;Single;Nebraska;1
+Oliver;Wood;35;Married;New Hampshire;1
+Ella;Williams;19;Single;New Jersey;0
+Graham;Parker;43;Divorced;California;2
+Madison;Wright;26;Married;Tennessee;0
+Lily;Harris;18;Single;Iowa;1
+Ryan;Walker;29;Married;Florida;2
+Samantha;Long;22;Single;Nevada;0
+Aiden;Green;40;Single;South Carolina;3
+Nora;Foster;19;Single;Nebraska;1
+Michael;Moore;36;Married;Ohio;2
+Ella;Lee;27;Single;Oklahoma;1
+Ethan;Carter;32;Single;Georgia;0
+Grace;Clark;15;Single;Alabama;1
+Zachary;Nelson;38;Married;Maryland;2
+Harper;Wright;30;Single;Wisconsin;1
+Mason;Reed;24;Single;New Mexico;0
+Chloe;Adams;23;Married;Arkansas;1
+Matthew;Gray;28;Single;Idaho;2
+Liam;Carter;26;Single;South Dakota;1
+Avery;Wood;40;Single;Nebraska;3
+Jackson;Scott;17;Single;Tennessee;0
+Sophia;Mitchell;30;Divorced;North Carolina;2
+Jacob;Jones;22;Single;Nevada;1
+Samantha;Davis;26;Married;Kansas;0
+Eli;Adams;29;Single;Arkansas;2
+Olivia;Hall;35;Married;Ohio;1
+Matthew;Foster;31;Single;Vermont;0
+Mia;Johnson;18;Single;California;1
+Mason;Williams;28;Married;West Virginia;2
+Sophia;Harris;24;Single;Connecticut;1
+David;Hughes;32;Single;Oregon;3
+Charlotte;Green;14;Single;Alabama;0
+Daniel;Lee;33;Married;Nebraska;1
+Lily;King;26;Divorced;Nevada;2
+Ethan;Moore;27;Married;Tennessee;0
+Zoe;Adams;21;Single;Kentucky;2
+Henry;Nelson;19;Single;Florida;0
+Ella;Harris;39;Married;South Dakota;1
+Benjamin;Jones;30;Married;Colorado;3
+Harper;Scott;20;Single;New Hampshire;1
+Liam;Sullivan;37;Married;Missouri;2
+Mia;Morris;18;Single;Indiana;0
+Eli;Johnson;45;Married;New York;2
+Chloe;Reed;26;Single;Arkansas;1
+James;Harris;22;Single;Wisconsin;0
+Ava;Scott;29;Married;South Carolina;2
+Owen;Nelson;34;Single;Georgia;1
+Sophie;Brown;18;Single;Nebraska;0
+Elijah;Foster;37;Married;Texas;3
+Mia;Green;23;Single;Mississippi;1
+Matthew;Hughes;31;Single;Kansas;0
+Lily;Reed;27;Single;New Jersey;2
+Noah;Sullivan;20;Married;California;1
+Harper;Johnson;26;Married;Tennessee;0
+Emma;Wilson;35;Single;Alabama;2
+David;Parker;28;Single;New Mexico;1
+Sophia;Carter;19;Single;South Carolina;0
+Ethan;Morris;37;Married;Connecticut;2
+Mia;Jackson;22;Single;Georgia;1
+Jack;Smith;29;Married;Maryland;3
+Chloe;Hughes;15;Single;West Virginia;0
+Jacob;Adams;32;Single;Oregon;1
+Olivia;Walker;23;Married;Colorado;0
+Leo;Harris;26;Single;Nebraska;2
+Aiden;Hall;31;Married;Nevada;1
+Mia;Green;24;Single;North Carolina;3
+Ryan;Jones;27;Married;Mississippi;2
+Sophie;Scott;18;Single;Rhode Island;0
+Matthew;Green;29;Married;California;1
+Harper;Brown;21;Single;Arkansas;0
+David;Wilson;32;Single;Oklahoma;3
+Emily;Davis;15;Single;Nebraska;1
+Henry;Johnson;28;Single;South Dakota;2
+Ella;Harris;22;Single;West Virginia;0
+James;Carter;33;Married;Iowa;1
+Sophia;Reed;24;Married;New Jersey;2
+Liam;Clark;19;Single;Kentucky;0
+Mia;Adams;31;Single;Nebraska;3
+Owen;Green;25;Single;California;1
+Chloe;Walker;18;Single;Tennessee;0
+David;Mitchell;35;Married;Texas;2
+Lily;Scott;27;Married;Ohio;1
+Ethan;Adams;24;Single;West Virginia;0
+Sophia;Jones;30;Divorced;New Mexico;3
+Jacob;Brown;20;Single;Arkansas;1
+Emma;Green;22;Single;Kansas;0
+Harper;Reed;26;Married;South Carolina;2
+Liam;Brown;25;Single;California;5
