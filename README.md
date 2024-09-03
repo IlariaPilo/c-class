@@ -17,7 +17,7 @@ Some C basic stuff for you! &lt;3
 [Part 3](./part-3-files/) is centered on files and structures. Take a look at this lesson to hear more about:
 1. Classic structures
 2. Dynamically-allocated structures
-3. Formatted I/O
+3. Formatted I/O + reading from terminal
 4. Binary I/O
-5. Reading from terminal
+
 

@@ -186,12 +186,12 @@ There are a lot of format specifiers. Some of the most common are:
 
 | Specifier | Type |
 | :-------: | :--- |
-| __%d__ | int |
-| __%x__ | int (hexadecimal) |
-| __%f__ | float |
-| __%s__ | string |
-| __%c__ | char |
-| __%p__ | pointer |
+| `%d` | int |
+| `%x` | int (hexadecimal) |
+| `%f` | float |
+| `%s` | string |
+| `%c` | char |
+| `%p` | pointer |
 
 It's also possible to specify the number of fractional digits, the minimum number of overall digits and a lot of other things. If you have specific requirements on how your output must look like, Stack Overflow is your friend! 
 
@@ -203,13 +203,177 @@ int fscanf(FILE *stream, const char *format_string, ...);
 - `format_string` is how the message we want to read looks like. This is the complex part.
 - In a dual way to `printf`, you need to pass the *__addresses__* where you want the values to be stored, one per placeholder.
 
-TODO
+This function returns an integer value representing the number of input items successfully matched and assigned. If the input ends before the first matching failure or if an error occurs, EOF (End Of File) is returned.
 
+`scanf` can be really painful to use, since sometimes it behaves quite unpredictably. Here's a quick guideline on how to handle it.
 
+|   | Category | Comment | File line | Format |
+|:-:| :--------|:--| :-------- | :----- |
+|😊| _Only numbers in the building_ | The most normal `scanf` situation | 13:24 | `"%d:%d"` |
+|🤢| _Character at the beginning of the line_ | Don't forget to discard the `\n` with `%*c` | A 13:24 | `"%c %d:%d%*c"` |
+|🤮| _CSV-like structure (with strings)_ | Use regex-style syntax, explicit the maximum length | john,locke,42 | `"%31[^,],%31[^,],%d%*c"` |
 
+The main issue with `scanf` format strings is ambiguity. Let's looks at the _only numbers_ example: in the line "13:24", "13" and "14" are evidently numbers, while ":" is evidently not-a-number. Since there is no ambiguity, everything works as expected.
 
+Characters are more complex, since the ASCII table contains a bunch of non-printable characters. The `\n` at the end of each line is clearly a character, therefore it will match with the first `%c` in the _character at the beginning of the line_ example, unless you discard it with `%*c`. If you are using Windows it will be even worse, as you'll get both a carriage return (`\r`) and a newline you have to get rid of.
 
-#### Some facts about `scanf` and the `s` variations that I have to put somewhere
+Strings are arguably the worst, in terms of ambiguity. In C, a string terminates when `s[i] == \0`. But this isn't true in a file, right? You can have files where each string is a line, files where strings are separated by space, or comma, or dash, or whatever your heart desires. So, to get the behavior you like, you have to stick to the regex syntax.
+
+I'll put here some examples, if you don't care feel free to skip ahead!
+
+😊 __Only numbers in the building__
+
+Suppose you have a log file collecting some login timestamps, and you want to count the number of logins in the current month.
+```c
+/* -------------
+logins.log
+2024/09/02 13:24
+2024/08/31 09:59
+------------- */
+
+void logins(int curr_month) {
+    // declare the variables
+    int year, month, date, hour, min, count;
+    count = 0;
+    printf("Logins for the current month [%02d], all-time:\n", curr_month);
+    // open in read mode
+    FILE* fp = fopen("logins.log", "r");
+    // until we reach EOF
+    while (fscanf(fp, "%d/%d/%d %d:%d", &year, &month, &date, &hour, &min) != EOF) {
+        if (curr_month == month) {
+            printf("   %d/%02d/%02d %02d:%02d\n", year, month, date, hour, min);
+            count ++;
+        }
+    }
+    fclose(fp);
+    printf("TOTAL = %d\n", count);
+}
+```
+Then, you will get:
+```
+Logins for the current month [09], all-time:
+   2024/09/02 13:24
+TOTAL = 1
+```
+
+🤢 __Character at the beginning of the line__
+
+Suppose you want to create a division utility that reads two numbers from the terminal, and then asks whether the division should be floating point or result & remainder.
+```c
+void division_wrong() {
+    int n1, n2;
+    char type;
+    printf("### DIVISION UTILITY ###\n");
+    printf("n1: ");
+    scanf("%d", &n1);   // WRONG 🚫
+    printf("n2: ");
+    scanf("%d", &n2);   // WRONG 🚫
+    if (n2==0) {
+        printf("[error] cannot divide by 0!\n");
+        return;
+    }
+    // asks for division type
+    printf("Which division do you want? [c = classic, f = floating point]: ");
+    scanf("%c", &type);
+    if (type == 'C' || type == 'c') {
+        printf("%d/%d = %d, remainder %d\n", n1, n2, n1/n2, n1%n2);
+    } else if (type == 'F' || type == 'f') {
+        printf("%d/%d = %f\n", n1, n2, (float)n1/(float)n2);
+    } else {
+        printf("Sorry, I don't know option [%c]\n", type);
+    }
+}
+```
+In this case, you have to input two numbers and a character, meaning the stream will look like this:
+```py
+stream = "42\n3\nc\n"
+#         ^   ^  ^
+#         |   |  |
+#         n1  n2 type
+```
+However, your overall format string will look like this:
+```py
+format_string = "%d%d%c"
+```
+If we put everything together, we get:
+```py
+stream
+ "42"   # a number (matches %d, "%d%c" remaining)
+ "\n"   # not-a-number (skipped, "%d%c" remaining)
+ "3"    # a number (matches %d, "%c" remaining)
+ "\n"   # a character (matched %c, format string is over)
+ "c"    # skipped
+ "\n"   # skipped
+```
+With the wrong implementation, `\n` is interpreted as the option, and you'll get:
+```
+### DIVISION UTILITY ###
+n1: 42
+n2: 3
+Which division do you want? [c = classic, f = floating point]: Sorry, I don't know option [
+]
+```
+Let's now add the discard operator `%*c`:
+```c
+void division_correct() {
+    int n1, n2;
+    char type;
+    printf("### DIVISION UTILITY ###\n");
+    printf("n1: ");
+    scanf("%d%*c", &n1);   // CORRECT ✅
+    printf("n2: ");
+    scanf("%d%*c", &n2);   // CORRECT ✅
+    if (n2==0) {
+        printf("[error] cannot divide by 0!\n");
+        return;
+    }
+    // asks for division type
+    printf("Which division do you want? [c = classic, f = floating point]: ");
+    scanf("%c%*c", &type);
+    if (type == 'C' || type == 'c') {
+        printf("%d/%d = %d, remainder %d\n", n1, n2, n1/n2, n1%n2);
+    } else if (type == 'F' || type == 'f') {
+        printf("%d/%d = %f\n", n1, n2, (float)n1/(float)n2);
+    } else {
+        printf("Sorry, I don't know option [%c]\n", type);
+    }
+}
+```
+Now everything works fine, and the option is correctly parsed:
+```
+### DIVISION UTILITY ###
+n1: 42
+n2: 3
+Which division do you want? [c = classic, f = floating point]: c
+42/3 = 14, remainder 0
+```
+
+🤮 __CSV-like structure (with strings)__
+
+Suppose you want to read a CSV file containing `first_name,last_name,age`, and you want to count the number of people named "John".
+```c
+void johns() {
+    // declare the variables
+    char fname[32], lname[32];
+    int age, count;
+    count = 0;
+    // open in read mode
+    FILE* fp = fopen("people.txt", "r");
+    // until we reach EOF
+    while (fscanf(fp, "%31[^,],%31[^,],%d%*c", fname, lname, &age) != EOF) {
+        if (strcmp("john", fname)==0) {
+            count ++;
+        }
+    }
+    fclose(fp);
+    printf("I found %d john%s.", count, count==1?"":"s");
+}
+```
+Since the separator is `,`, each string is formatted as `%31[^,]` (meaning "at most 31 characters which are not comma"). Since the comma is skipped, we write it down. Finally, we read the age as integer and discard the `\n`.
+
+>You can find these examples in [scanf-ing.c](./scanf-ing.c).
+
+#### Some facts about the `s` variations that I have to put somewhere
 
 TODO
 
@@ -217,3 +381,5 @@ TODO
 ### Binary I/O
 
 TODO
+
+
