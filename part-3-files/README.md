@@ -1,5 +1,5 @@
 # Part 3
-Today we are going to talk about structures and files. Enjoy!
+Today we are going to talk about [structures](#structures) and [files](#files). Enjoy!
 
 ## Structures
 Structures can be used to pack together different variables, using an object-programming-kinda fashion. 
@@ -219,7 +219,7 @@ Characters are more complex, since the ASCII table contains a bunch of non-print
 
 Strings are arguably the worst, in terms of ambiguity. In C, a string terminates when `s[i] == \0`. But this isn't true in a file, right? You can have files where each string is a line, files where strings are separated by space, or comma, or dash, or whatever your heart desires. So, to get the behavior you like, you have to stick to the regex syntax.
 
-I'll put here some examples, if you don't care feel free to skip ahead!
+I'll put here some examples, if you don't care feel free to [skip ahead](#some-facts-about-the-s-variations-that-i-have-to-put-somewhere)!
 
 😊 __Only numbers in the building__
 
@@ -369,17 +369,45 @@ void johns() {
     printf("I found %d john%s.", count, count==1?"":"s");
 }
 ```
-Since the separator is `,`, each string is formatted as `%31[^,]` (meaning "at most 31 characters which are not comma"). Since the comma is skipped, we write it down. Finally, we read the age as integer and discard the `\n`.
+First, notice how `fname` and `lname` don't need the address operator `&`, since they are already addresses. Remember?
+
+Then, let's look at the format string. Since the separator is `,`, each string is formatted as `%31[^,]` (meaning "at most 31 characters which are not comma"). We don't care about the comma, so we write it down after each string to skip it. Finally, we read the age as integer and discard the `\n`.
 
 >You can find these examples in [scanf-ing.c](./scanf-ing.c).
 
 #### Some facts about the `s` variations that I have to put somewhere
 
-TODO
-
+`sprintf` and `sscanf` are used to write-to and read-from strings, respectively (but you should already know this). A useful use-case for these functions is to convert numbers to strings and vice-versa. 
+For example, suppose you want to check whether a number contains the digit "9":
+```c
+int check_9(int x) {
+    char str_x[32];
+    // write the number in the string using sprintf
+    sprintf(str_x, "%d", x);
+    return (strchr(str_x, '9') != NULL);
+}
+```
+`sscanf` is particularly useful when it comes to command line arguments, since they are automatically parsed as strings.
+```c
+// a program that takes an int number as argument and duplicates it 
+int main(int argc, char** argv) {
+    // argc -> # arguments = len(argv)
+    // argv -> arguments; argv[0] --> name of the program
+    if (argc != 2) {
+        printf("[usage] %s INT_NUMBER\n", argv[0]);
+        return EXIT_FAILURE;
+    }
+    int x;
+    // convert to actual int
+    sscanf(argv[1], "%d", &x);
+    printf("Duplicating %d --> %d\n", x, x<<1);
+    return EXIT_SUCCESS;
+}
+```
 
 ### Binary I/O
 
 TODO
 
-
+## And that's all!
+See you next time <3
