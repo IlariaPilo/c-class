@@ -20,4 +20,5 @@ Some C basic stuff for you! &lt;3
 3. Formatted I/O (feat. reading from terminal & command line arguments)
 4. Binary I/O
 
-
+## keyboard
+[Resources](./keyboard/) to write and customize firmware code in QMK.
