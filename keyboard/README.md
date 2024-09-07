@@ -68,7 +68,7 @@ enum planck_layers {
 
 To further customize your keyboard, you have to use _callback functions_. Callback functions in QMK always end by **\_kb** (at keyboard level) or **\_user** (at keycode level). `_user` functions are empty, and are always called by the respective `_kb` function. `_kb` functions can be already defined -- or not, so double check if you plan on using it.
 
-Usually, you'll put your changes in the `_user` version. If you choose to change the `_kb` version, make sure to call the `_user` version, and remember you'll override the original one (so take a look at what it does).
+Usually, you'll put your changes in the `_user` version. If you choose to change the `_kb` version, make sure to call the `_user` version in it, and remember you'll override the original one (so take a look at what it does).
 
 A list of functions and callbacks can be found in the `.h` files in the [`/quantum` folder](https://github.com/qmk/qmk_firmware/blob/master/quantum/).
 
@@ -124,4 +124,51 @@ main
 In general, the chain will be halted as soon as a function returns `false`. After the chain is stopped, `post_process_record` is called to perform extra cleanup.
 
 ## 3. Add new keycodes
-After 
+After changing the keyboard layers, the most common customization is to change/add keycodes. This is very easy to do!
+
+Suppose you want to add a keycode that writes "../". First thing first, you need to assign a constant value to this keycode. This value should be different from any other keycode, otherwise there will be ambiguity. This can be done with the `SAFE_RANGE` macro.
+```c
+enum new_keycodes {
+    KC_PARENT_DIR = SAFE_RANGE
+    // you can add other keycodes here
+    // if you do so, there is no need to write SAFE_RANGE again
+}
+```
+Then, you need to define what must happen when you press/release the keycode. If you read the rest of this document, you'll know that the event of pressing/releasing a keycode will be handled by `process_record`, and that `process_record_user` is the callback function reserved to add custom code. You'll also know that returning `false` means "disregard any default behavior", since you'll break the processing chain.
+
+So, time to override! The `process_record_user` function should look like this:
+```c
+bool process_record_user(uint16_t keycode, keyrecord_t *record);
+```
+where `keyrecord_t` is a structure that looks like this:
+```c
+keyrecord_t record {
+    keyevent_t event {
+        keypos_t key {
+            uint8_t col
+            uint8_t row
+        }
+        bool     pressed
+        uint16_t time
+    }
+}
+```
+Overall, `process_record_user` will be called in the main loop for each change in the pin matrix. `keycode` will store the keycode that has changed, while `record` will provide the information on the change (are we pressing the key, or releasing it? And what's the position of the key in the matrix?).
+
+Now, you have everything you need! You simply need to add the following code in `keymap.c`:
+```c
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    switch(keycode) {
+        case KC_PARENT_DIR:
+            // we are typing on pressing, and not on releasing
+            if (record->event.pressed) {
+                SEND_STRING("../");
+            }
+            // there is no default behavior for this keycode, stop the chain
+            return false;
+        default:
+            // continue the chain
+            return true;
+    }
+}
+```
