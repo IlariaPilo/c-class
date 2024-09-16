@@ -51,6 +51,8 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+.vscode/
+
 # stuff
 part-1-basics/c-vs-py
 part-1-basics/pointers
