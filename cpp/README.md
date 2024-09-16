@@ -180,6 +180,36 @@ cout << "Machine " << search->first << " is " << search->second << endl;
 C++ also implements `stack` (LIFO data structure), `queue` (FIFO data structure) and `priority_queue`. If you need them for some reason, no need to start from scratches!
 
 ## C++ algorithms
-The `algorithms` library provides functions for different purposes (functions that you should implement yourself in C). These functions typically works with iterators, which are "pointers to elements in a container"
+The `<algorithm>` library provides functions for different purposes, like sort or search (functions that you should implement yourself in C). 
 
+These functions typically take iterators as input, which are "pointers to elements in a container" (in quotes because they aren't ACTUAL POINTER TYPES, but they work in the same way). Iterators have super long and annoying types, so they get along really well with `auto`.
 
+Normally, you might want to start from the beginning of the container, and continue until the very end. In that case, you can use the `begin` and `end` functions. They return the following iterators:
+
+![begin and end iterators](https://upload.cppreference.com/mwiki/images/1/1b/range-begin-end.svg)
+
+```cpp
+// suppose that vector `people` is sorted by construction
+vector<string> people = /* init somehow */
+// begin iterator
+auto it = people.begin();
+// end iterator
+auto it_end = people.end();
+// skip the first 2 elements (for some reason) => it works like a pointer!
+it += 2;
+// search for "jean-luc"
+bool has_jean_luc = binary_search(it, it_end, "Jean-Luc");
+```
+
+These are some of interesting functions you can find in `<algorithm>`. As per usual, take a look at the [documentation](https://en.cppreference.com/w/cpp/algorithm) if you need something more specific, or if you want to see how these functions work:
+- `fill` - assign a value to every element in a range;
+- `unique` - remove consecutive duplicate elements in a range;
+- `reverse` and `rotate` - reverse / rotate the order of elements in a range;
+- `shuffle` - randomly re-order elements in a range;
+- `sample` - select N random elements from a sequence;
+- `sort` and `stable_sort` - sort the elements in a range (`stable_sort` preserves the order of equal elements);
+- `is_sorted` - check whether the elements in a range are sorted;
+- `binary_search` - determine if an element exists in a partially-ordered range;
+- `lower_bound` and `upper_bound` - return an iterator to the first element _not less_ / _greater_ than the given value;
+- All the possible operation on sets;
+- `max_element`, `min_element` and `minmax_element` - returns the largest/smallest/both element in a range.
