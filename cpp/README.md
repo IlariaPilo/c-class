@@ -6,7 +6,8 @@ Ready? Go!
 
 ## TOC
 1. [Types & Program flow](#types--program-flow)
-2. [C++ containers](#c-containers)
+2. [Containers](#c-containers)
+3. [Algorithms](#c-algorithms)
 
 ## Types & Program flow
 C++ is, in a way, an extension of C: everything you can do in C, you can do it in C++. However, C++ is newer than C, meaning it makes some things much easier than C. 
@@ -67,21 +68,19 @@ auto some_kind_of_number = name.length();
 ### Program flow structures
 As with types, classic C structures are still there, unchanged (`if...else`, `while`, `do...while`, `switch...case`). `break` and `continue` statements are also available.
 
-The new entry is the `for each` kinda loop! This structure can be used with any type that has an iterator function, like in Java. If you don't know what that is, don't worry. If it's a C++ container, or a string, the for each will most likely work.
+The new entry is the `for each` kinda loop! This structure can be used with any type that has an iterator function, like in Java. If you don't know what that is, don't worry. If it's a C++ container, a string, or a statically allocated C-style array, the for each will most likely work.
 ```cpp
 // old, C-style for
-int old_v[5] = {1, 2, 4, 8, 16};
+int v[] = {1, 2, 4, 8, 16};
 for (int k=0; k<5; k++) {
     // do something
 }
 // C++ for each!
-vector<int> new_v = {1, 2, 4, 8, 16};
-// FOR EACH
-for (int element : new_v) {
+for (int element : v) {
     // do something
 }
 ```
-`vector<int>` is a C++ container (more on this later). For now, think about it as an array 2.0. With this kind of structure, you can use the new `for each`.
+You can use the `for each` in many different flavours:
 ```cpp
 // generic structure
 for (type element : array) {
@@ -100,4 +99,87 @@ for (type& element : array) {
 ```
 
 ## C++ containers
-A container is a C++ object
+A container is a C++ object made to collect other C++ objects. The container manages the space for its elements, and provides functions to access them. I will now talk about what I think are the most common containers. Take a look at the [documentation](https://en.cppreference.com/w/cpp/container) to know more about them (they are very cool).
+
+There are 3 (+1) categories of containers:
+- _Sequence containers_ - data structures which can be accessed sequentially; 
+- _Associative containers_ - sorted data structures that can be quickly searched (`O(log n)` complexity);
+- _Unordered associative containers_ - hashed data structures that can be quickly searched (`O(1)` average, `O(n)` worst-case complexity);
+- _Other containers_ - whatever doesn't fit in the previous categories.
+
+All these classes are defined through templates, like in Java. If you don't know what they are, don't worry! It simply means we have to specify the type of the elements:
+```cpp
+vector<string> names;           // a vector of strings
+vector<double> temperatures;    // a vector of doubles
+```
+
+All containers (to my knowledge) have members functions to get their size:
+- `empty()` returns `true` if the container is...well...empty;
+- `size()` returns the number of element (NOT THE ACTUAL SIZE!!).
+
+### `vector`
+`vector` is by far the most commonly used container, and it belongs to the _sequence_ category. It's defined by the C++ documentation as:
+
+> **`vector`** dynamic contiguous array
+
+This means that:
+- Contiguous elements in the array are saved in contiguous memory cells (as in a C-style array);
+- The array can change its size dynamically.
+
+For example, suppose we want to add the first 5 powers of 2 in a vector:
+```cpp
+// option 1 -- append (like in Python)
+vector<int> pow2;
+for (int k=1; k<16; k*=2) {
+    // push_back allocates space for a new element in the vector
+    pow2.push_back(k);
+}
+cout << "First 5 powers of 2: " << pow2 << endl;
+```
+However, if you know in advance that you'll need space for 5 elements, you can `reserve` them:
+```cpp
+// option 2 -- reserve in advance
+vector<int> pow2;
+// make space for 5 elements
+pow2.reserve(5);
+// fill (like in C, but use for each cause it's cool)
+int k = 1;
+for (int& element : pow2) {
+    element = k;
+    k *= 2;
+}
+cout << "First 5 powers of 2: " << pow2 << endl;
+```
+
+### `map` and associative containers
+`map` is a classic key-value pair structure, sorted by key (which means it's an _associative_ container). Keys must be unique.
+
+Since it's a sorted container, binary search can be employed to find an element in logarithmic time. You don't have to worry about implementing it yourself though: all the associative containers provide methods to search for elements, as well as the classic `[]` access. 
+
+The most common are:
+- `count`- returns the number of elements matching specific key;
+- `find` - finds element with specific key;
+- `contains` - checks if the container contains element with specific key.
+
+For example, let's say we want to save some computer stats in a map (inspired by the C++ documentation):
+```cpp
+// Create a map of three (string, int) pairs
+map<string, int> m{{"CPU", 10}, {"GPU", 15}, {"RAM", 20}};
+m["CPU"] = 25; // update an existing value
+m["SSD"] = 30; // insert a new value
+// search for the RAM entry => find() returns an iterator!!
+auto search = m.find("RAM");
+// search->first is the key
+// search->second is the value
+cout << "Machine " << search->first << " is " << search->second << endl;
+// ## CONSOLE LOG ##
+// Machine RAM is 20
+```
+
+### Other containers
+C++ also implements `stack` (LIFO data structure), `queue` (FIFO data structure) and `priority_queue`. If you need them for some reason, no need to start from scratches!
+
+## C++ algorithms
+The `algorithms` library provides functions for different purposes (functions that you should implement yourself in C). These functions typically works with iterators, which are "pointers to elements in a container"
+
+
