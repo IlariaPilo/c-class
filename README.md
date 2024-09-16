@@ -22,3 +22,6 @@ Some C basic stuff for you! &lt;3
 
 ## keyboard
 [Resources](./keyboard/) to write and customize firmware code in QMK.
+
+## cpp
+[Resources](./cpp/) to learn C++ basics.
