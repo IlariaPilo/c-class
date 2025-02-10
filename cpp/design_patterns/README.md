@@ -1,6 +1,8 @@
 # All about Design
 _Want to know more? Read [design.pdf](./design.pdf)_
 
+_Also, this is a cool site: [refactoring.guru](https://refactoring.guru/)_
+
 ## First, some stuff about C++ specifiers
 ### Access specifiers
 In C++, there are three access specifiers:
