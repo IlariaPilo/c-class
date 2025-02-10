@@ -173,15 +173,37 @@ Structural patterns are concerned with how classes and objects can be composed t
 
 ![Façade example](../../figs/facade.png)
 
+## Behavioural patterns
+Behavioural patterns are focused on the way that classes and objects communicate with each other.
 
+### Observer
+**Context ->** a change in one object may influence one or more other objects.
 
+**Problem ->** high coupling!! Moreover, the number and type of objects to be notified may not be known in advance.
 
+**💡 Solution ->** we define `Observable` and `Observer` classes/objects. When an observable state changes, all subscribed observers are notified and updated automatically (and possibly asynchronously). This way, responsibilities are clearly separated:
+- the observable must maintain a list of observers and notify them by calling their `update()` operation.
+- observers must register/unregister to observables, and update their state when notified.
 
+![Observer example](../../figs/observer.png)
 
+**[+]** abstract coupling between observer and observables <br>
+**[+]** support for broadcast communication <br> 
+**[-]** unanticipated updates
 
+### Strategy
+**Context ->** many classes/algorithms have a stable core and several behavioural variations.
 
-**Context ->** 
+**Problem ->** several implementations are needed, multiple `if` statements tangle the code.
 
-**Problem ->** 
+**💡 Solution ->** client interacts with an abstract `Strategy` interface, which is implemented by many concrete strategies. Then, the concrete strategy to be used is selected run time.
 
-**💡 Solution ->**
+![Strategy example](../../figs/strategy.png)
+
+**[+]** avoid conditional statements <br>
+**[+]** algorithms can be organized in families <br>
+**[+]** choice of implementations <br>
+**[+]** run time binding <br>
+**[-]** clients must be aware of different strategies <br>
+**[-]** communication overhead <br>
+**[-]** increased number of objects
