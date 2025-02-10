@@ -24,7 +24,7 @@ int main() {
 }
 ```
 
-### Static attribute
+### Static attributes
 A `static` attribute is an attribute that is shared by all the instances of a class.
 
 Given this class:
@@ -61,7 +61,7 @@ int main() {
 ```
 Overall, a static attribute can be seen as a sort of global variable in the scope of a given class.
 
-### Static function
+### Static functions
 The `static` specifier can also be used in member function. Similarly to the attribute case, a static function doesn't depend on the content of a specific instance, and therefore CANNOT ACCESS attributes that are not `static` as well.
 
 We can modify the previous class:
@@ -121,6 +121,7 @@ Starting from a UML glossary, we get a design as follows:
 Notice that n:m(2) is better than n:m(1) in terms of consistency management.
 
 ## Creational patterns
+Creational patterns focus on how to force instances creation under different constraints.
 
 ### Abstract factory
 **Context ->** a family of related classes can have different implementation details (e.g., creating different windows for a GUI according to the OS).
@@ -140,11 +141,40 @@ Notice that n:m(2) is better than n:m(1) in terms of consistency management.
 
 ![Singleton example](../../figs/singleton.png)
 
-**Context ->** 
+## Structural patterns
+Structural patterns are concerned with how classes and objects can be composed to form larger structures.
 
-**Problem ->** 
+### Adapter
+**Context ->** a pre-existing class provides the right features, but its interface is not the right one.
 
-**💡 Solution ->**
+**Problem ->** we want to integrate the class without modifying it, since:
+- its source code may not be available;
+- it may be already used as it is somewhere else. 
+
+**💡 Solution ->** we define a separate `Adapter` class, converting the incompatible interface (`Adaptee`) into another interface (`Target`), which is the one required by the client.
+
+![Adapter example](../../figs/adapter.png)
+
+### Composite
+**Context ->** we need to represent part-whole hierarchies of objects.
+
+**Problem ->** clients are complex, since they are not able to handle "Part" (aka `Leaf`) and "Whole" (aka `Composite`) objects in a uniform way (they must treat them separately).
+
+**💡 Solution ->** we define a unified `Component` interface, that abstracts both `Leaf` and `Composite`. Then, individual leaves implement `Component` directly, while composites forward requests to their children, moving recursively downwards the tree structure. From the client's POV, `Leaf` and `Composite` are uniform, thus making the client simpler.
+
+![Composite example](../../figs/composite.png)
+
+### Façade
+**Context ->** a functionality is provided by a complex group of classes.
+
+**Problem ->** we want the functionality to be used without being exposed to the details.
+
+**💡 Solution ->** we define a `Facade` class, implementing a simple interface which delegates requests to the subsystem. The façade class possibly performs additional operations (e.g., conversions) before/after forwarding the request.
+
+![Façade example](../../figs/facade.png)
+
+
+
 
 
 
